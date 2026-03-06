@@ -174,20 +174,24 @@ curl -X POST http://localhost:3000/api/follow \
 
 ### N+1 問題の例（クエリログを確認）
 
+**N+1 問題**: 親レコードを 1 回取得したあと、各子レコードを別クエリで取得してしまうパターン。1+N クエリが発行され、データ量に応じてスケールしない。`include` で一括取得すれば 1 クエリで済む。
+
 ```bash
-curl http://localhost:3000/api/debug/nplusone?limit=5
+curl "http://localhost:3000/api/debug/nplusone?limit=5"
 ```
 
 ### N+1 回避版
 
 ```bash
-curl http://localhost:3000/api/debug/optimized?limit=5
+curl "http://localhost:3000/api/debug/optimized?limit=5"
 ```
 
 ### EXPLAIN ANALYZE（学習用）
 
+SQL の実行計画と実測時間を返す。インデックスが効いているか、遅いクエリの原因を調べるのに使う。
+
 ```bash
-curl "http://localhost:3000/api/debug/explain?sql=SELECT%20*%20FROM%20%22User%22%20LIMIT%201"
+curl -G "http://localhost:3000/api/debug/explain" --data-urlencode 'sql=SELECT * FROM "User" LIMIT 1'
 ```
 
 ---
