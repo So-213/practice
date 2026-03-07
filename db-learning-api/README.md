@@ -47,6 +47,8 @@ db-learning-api/
 
 ## セットアップ手順
 
+> **ローカル PostgreSQL を使う場合**: Docker ではなく、macOS に直接インストールした PostgreSQL を使う手順は [README-LOCAL-DB.md](./README-LOCAL-DB.md) を参照してください。
+
 ### 1. 依存関係インストール
 
 ```bash
