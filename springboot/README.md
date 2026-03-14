@@ -27,9 +27,9 @@ cd springboot
 
 ```
 springboot/
-├── build.gradle                     # Gradle設定
+├── build.gradle               # Gradle設定　Next.jsでいうところのpackage.json
 ├── settings.gradle
-├── gradlew / gradlew.bat            # Gradle Wrapper
+├── gradlew / gradlew.bat      # Gradle Wrapper　Next.jsでいうところのnpm本体
 ├── src/main/java/.../
 │   ├── HelloSpringBootApplication.java   # エントリーポイント
 │   └── controller/

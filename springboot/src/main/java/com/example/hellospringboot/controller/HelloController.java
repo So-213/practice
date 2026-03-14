@@ -17,7 +17,7 @@ public class HelloController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("message", "Spring Boot へようこそ！");
-        return "index";
+        return "index"; // templates/index.htmlを返す　という意味
     }
 
     @GetMapping("/hello")
