@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Boot 入門</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            max-width: 600px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        p { line-height: 1.6; }
+        .links {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        a {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        a:hover { background: #5568d3; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1 th:text="${message}">Spring Boot へようこそ！</h1>
+        <p>これは Spring Boot で作成したシンプルなWebアプリケーションです。</p>
+        <p><strong>試してみよう：</strong></p>
+        <ul>
+            <li><a href="/hello">/hello</a> - 名前を指定して挨拶（例: /hello?name=太郎）</li>
+            <li><a href="/api/hello">/api/hello</a> - JSON形式のREST API</li>
+        </ul>
+        <div class="links">
+            <a href="/hello?name=太郎">挨拶ページへ</a>
+            <a href="/api/hello?name=Spring">APIを試す</a>
+        </div>
+    </div>
+</body>
+</html>
