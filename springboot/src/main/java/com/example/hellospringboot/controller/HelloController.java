@@ -17,7 +17,7 @@ public class HelloController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("message", "Spring Boot へようこそ！");
-        return "index"; // templates/index.htmlを返す　という意味
+        return "index"; // templates/index.htmlを返す　という意味、フロントエンド的な使い方
     }
 
     @GetMapping("/hello")
@@ -29,8 +29,8 @@ public class HelloController {
     @GetMapping("/api/hello")
     @ResponseBody
     public Greeting apiHello(@RequestParam(defaultValue = "World") String name) {
-        return new Greeting("Hello, " + name + "!");
+        return new Greeting("Hello, " + name + "!");  //ここでpublic record Greeting(String message) {}を元にインスタンスが生成される
     }
 
-    public record Greeting(String message) {}
+    public record Greeting(String message) {}  //リクエスト処理の間だけメモリ上に持つ（データを保持する）ためのクラス
 }
