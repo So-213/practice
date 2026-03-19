@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class HelloController {  //永久インスタンスとして状態を保つことはできるけれど、リクエストごとの状態は持たないように設計してある（jdbcTemplate などの共有リソースだけを保持する）（name などはメソッドの引数で受け取る）
-
+// 統一性のないエンドポイントをHelloControllerにまとめてるのでこれはそんなに良くない設計
     private final JdbcTemplate jdbcTemplate;
 
     public HelloController(JdbcTemplate jdbcTemplate) {  
