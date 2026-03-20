@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${item != null} ? 'Item 編集' : 'Item 新規作成'">フォーム</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: system-ui, sans-serif; max-width: 480px; margin: 2rem auto; padding: 1rem; }
+        h1 { color: #333; }
+        label { display: block; margin-top: 1rem; font-weight: 500; }
+        input { width: 100%; padding: 0.5rem; margin-top: 0.25rem; }
+        .actions { margin-top: 1.5rem; display: flex; gap: 0.5rem; }
+        a, button { padding: 0.5rem 1rem; text-decoration: none; border-radius: 6px; cursor: pointer; border: none; }
+        .btn-primary { background: #2563eb; color: white; }
+        .btn-secondary { background: #6b7280; color: white; }
+        .error { color: #dc2626; margin-top: 0.5rem; }
+    </style>
+</head>
+<body>
+    <h1 th:text="${item != null} ? 'Item 編集' : 'Item 新規作成'">フォーム</h1>
+
+    <p th:if="${param.error}" class="error">名前を入力してください。</p>
+
+    <form th:action="${item != null} ? @{/items/{id}(id=${item.id})} : @{/items}" method="post">
+        <label for="name">名前</label>
+        <input type="text" id="name" name="name" th:value="${item != null} ? ${item.name} : ''" required>
+        <div class="actions">
+            <button type="submit" class="btn-primary" th:text="${item != null} ? '更新' : '作成'">送信</button>
+            <a th:href="@{/items}" class="btn-secondary">キャンセル</a>
+        </div>
+    </form>
+</body>
+</html>

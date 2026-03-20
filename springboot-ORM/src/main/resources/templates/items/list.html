@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item 一覧 - Spring Data JPA</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 1rem; }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.5rem; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f5f5f5; }
+        .actions { display: flex; gap: 0.5rem; }
+        a, button { padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 6px; font-size: 0.9rem; cursor: pointer; border: none; }
+        .btn-primary { background: #2563eb; color: white; }
+        .btn-secondary { background: #6b7280; color: white; }
+        .btn-danger { background: #dc2626; color: white; }
+        form { display: inline; }
+        .search-form { margin-bottom: 1rem; display: flex; gap: 0.5rem; }
+        .search-form input { flex: 1; padding: 0.5rem; }
+        .error { color: #dc2626; margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body>
+    <h1>Item 一覧（Spring Data JPA）</h1>
+
+    <form th:action="@{/items}" method="get" class="search-form">
+        <input type="text" name="search" th:value="${search}" placeholder="名前で検索...">
+        <button type="submit" class="btn-secondary">検索</button>
+    </form>
+
+    <p th:if="${param.error}" class="error">名前を入力してください。</p>
+
+    <a th:href="@{/items/new}" class="btn-primary">新規作成</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>名前</th>
+                <th>作成日時</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.name}"></td>
+                <td th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                <td>
+                    <div class="actions">
+                        <a th:href="@{/items/{id}/edit(id=${item.id})}" class="btn-secondary">編集</a>
+                        <form th:action="@{/items/{id}/delete(id=${item.id})}" method="post" th:onclick="return confirm('削除しますか？')">
+                            <button type="submit" class="btn-danger">削除</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p th:if="${#lists.isEmpty(items)}">登録されている Item はありません。</p>
+</body>
+</html>
