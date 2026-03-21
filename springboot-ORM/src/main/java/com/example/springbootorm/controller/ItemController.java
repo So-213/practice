@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
-    private final ItemRepository itemRepository;
+    private final ItemRepository itemRepository;  //継承ではなくインターフェース（継承の軽いversion、型/メソッドさえ合っていればOKなので注入するものを差し替えやすい）を使うことで実装を差し替えやすくする
 
     public ItemController(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
