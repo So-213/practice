@@ -1,0 +1,15 @@
+!.gradle/
+build/
+.gradle
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# H2 file DB (使う場合)
+data/

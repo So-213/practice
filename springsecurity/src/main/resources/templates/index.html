@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Security 練習</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Spring Security 練習</h1>
+        <p>セッション形式の認証を体験してみましょう。</p>
+        <a th:href="@{/login}" class="btn">ログイン</a>
+        <a th:href="@{/dashboard}" class="btn btn-secondary">ダッシュボード（要認証）</a>
+    </div>
+</body>
+</html>

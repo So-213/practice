@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ダッシュボード - Spring Security 練習</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>ダッシュボード</h1>
+        <p>認証済みユーザー専用のページです。</p>
+
+        <div class="user-info" th:if="${principal != null}">
+            <p>ようこそ、<strong th:text="${principal.username}">user</strong> さん！</p>
+        </div>
+
+        <form th:action="@{/logout}" method="post" class="inline">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit" class="btn btn-secondary">ログアウト</button>
+        </form>
+        <a th:href="@{/}" class="btn">トップへ戻る</a>
+    </div>
+</body>
+</html>
