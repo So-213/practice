@@ -50,9 +50,9 @@ cd springboot
 
 | URL | 説明 |
 |-----|------|
-| http://localhost:8080/ | トップページ |
-| http://localhost:8080/hello?name=太郎 | 挨拶ページ（名前を指定可能） |
-| http://localhost:8080/api/hello?name=Spring | REST API（JSONレスポンス） |
+| http://localhost:3000/ | トップページ |
+| http://localhost:3000/hello?name=太郎 | 挨拶ページ（名前を指定可能） |
+| http://localhost:3000/api/hello?name=Spring | REST API（JSONレスポンス） |
 
 ## プロジェクト構成
 

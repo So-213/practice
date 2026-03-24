@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 /**
  * UserDetailsService の実装。
  * DB（H2）からユーザーを取得し、Spring Security の認証に渡す。
+ * prisma adapterみたいなもんがなくてどのテーブル見ればいいかわからないから手動で教えてあげるってこと
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

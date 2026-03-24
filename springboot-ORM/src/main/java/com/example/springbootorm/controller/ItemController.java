@@ -33,7 +33,7 @@ public class ItemController {
                 ? itemRepository.findByNameContainingIgnoreCase(search)
                 : itemRepository.findAll();
         model.addAttribute("items", items);
-        model.addAttribute("search", search);  //model・・・コントローラからビュー（テンプレート）へ渡すデータを一時的に保持するRAM領域、props的な
+        model.addAttribute("search", search);  //model・・・コントローラからビュー（テンプレート）へ渡すデータを一時的に保持するRAM領域、props的な　※ Item.javaのやつとは別物
         return "items/list";
     }
 
