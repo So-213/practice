@@ -1,0 +1,33 @@
+---
+# Ansible 練習用 playbook
+# webservers グループの全サーバーに対してタスクを実行します
+
+- name: Ansible practice playbook
+  hosts: webservers
+  become: yes  # sudo を使って root 権限で実行する
+
+  tasks:
+    # --- パッケージ管理の練習 ---
+    # apt モジュール: パッケージが未インストールなら installed、
+    # すでに入っていれば changed にならない（冪等性の例）
+
+    - name: Ensure curl is installed
+      apt:
+        name: curl
+        state: present
+        update_cache: yes
+
+    - name: Ensure vim is installed
+      apt:
+        name: vim
+        state: present
+
+    # --- ファイル管理の練習 ---
+    # copy モジュール: 指定した内容のファイルを配置する
+    # 内容が同じなら 2 回目以降は changed にならない（冪等性の例）
+
+    - name: Create hello-ansible.txt
+      copy:
+        content: "Hello from Ansible. This file is managed by Ansible.\n"
+        dest: /tmp/hello-ansible.txt
+        mode: "0644"

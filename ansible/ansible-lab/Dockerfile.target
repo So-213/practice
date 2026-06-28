@@ -1,0 +1,57 @@
+# Ansible の練習用「操作される側（ターゲットサーバー）」のイメージ
+# Ubuntu 22.04 をベースに、SSH 接続と Ansible 実行に必要な最低限の環境を用意します
+
+FROM ubuntu:22.04
+
+# apt の対話プロンプトを無効化（ビルド中に止まらないようにする）
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 必要なパッケージをインストール
+# - openssh-server : Mac から SSH 接続するために必要
+# - python3        : Ansible がリモートでモジュールを実行するために必要
+# - sudo           : 一般ユーザーから管理者権限を使うために必要
+# - curl, vim      : playbook の練習タスクで使う
+RUN apt-get update && apt-get install -y \
+    openssh-server \
+    python3 \
+    sudo \
+    curl \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+# Ansible から接続するためのユーザーを作成
+# ユーザー名: ansible / パスワード: ansible（練習環境用の簡易設定）
+RUN useradd -m -s /bin/bash ansible && \
+    echo "ansible:ansible" | chpasswd && \
+    usermod -aG sudo ansible
+
+# ansible ユーザーが sudo をパスワードなしで使えるようにする
+# これにより playbook で become: yes が使える
+RUN echo "ansible ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ansible && \
+    chmod 440 /etc/sudoers.d/ansible
+
+# SSH サーバーの設定
+RUN mkdir -p /var/run/sshd && \
+    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
+    sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
+    sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
+
+# コンテナ起動時に SSH サーバーをフォアグラウンドで起動するスクリプト
+# （Docker コンテナでは systemd が使えないため、sshd を直接起動する）
+RUN printf '%s\n' \
+    '#!/bin/bash' \
+    'set -e' \
+    '' \
+    '# SSH ホスト鍵がなければ生成する（初回起動時）' \
+    'if [ ! -f /etc/ssh/ssh_host_rsa_key ]; then' \
+    '  ssh-keygen -A' \
+    'fi' \
+    '' \
+    '# SSH サーバーをフォアグラウンドで起動（-D = daemon モード）' \
+    'exec /usr/sbin/sshd -D' \
+    > /docker-entrypoint.sh && \
+    chmod +x /docker-entrypoint.sh
+
+EXPOSE 22
+
+ENTRYPOINT ["/docker-entrypoint.sh"]

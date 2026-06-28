@@ -1,0 +1,32 @@
+# Ansible 練習環境
+# target1 / target2 の 2 台の Ubuntu コンテナを起動します
+# Mac 上の Ansible（コントロールノード）から SSH 経由で操作する想定です
+
+services:
+  # 1 台目のターゲットサーバー（localhost:2221 で SSH 接続）
+  target1:
+    build:
+      context: .
+      dockerfile: Dockerfile.target
+    container_name: target1
+    hostname: target1
+    ports:
+      - "2221:22"
+    networks:
+      - ansible-lab
+
+  # 2 台目のターゲットサーバー（localhost:2222 で SSH 接続）
+  target2:
+    build:
+      context: .
+      dockerfile: Dockerfile.target
+    container_name: target2
+    hostname: target2
+    ports:
+      - "2222:22"
+    networks:
+      - ansible-lab
+
+networks:
+  ansible-lab:
+    driver: bridge
