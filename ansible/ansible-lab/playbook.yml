@@ -31,3 +31,34 @@
         content: "Hello from Ansible. This file is managed by Ansible.\n"
         dest: /tmp/hello-ansible.txt
         mode: "0644"
+
+    # --- Web サーバー（Python 簡易 HTTP サーバー）の練習 ---
+    # Docker コンテナでは systemd / systemctl が使えないため、
+    # nohup でバックグラウンド起動します
+
+    - name: Create web document root
+      file:
+        path: /var/www/html
+        state: directory
+        mode: "0755"
+
+    - name: Create index.html for this host
+      copy:
+        content: "{{ greeting_message }}\n"
+        dest: /var/www/html/index.html
+        mode: "0644"
+
+    - name: Check if Python HTTP server is already listening on port 8000
+      wait_for:
+        port: 8000
+        host: 127.0.0.1
+        timeout: 1
+      register: http_port_check
+      ignore_errors: true
+      changed_when: false
+
+    - name: Start Python HTTP server on port 8000
+      shell: |
+        cd /var/www/html && nohup python3 -m http.server 8000 --bind 0.0.0.0 > /var/log/http-server.log 2>&1 &
+      when: http_port_check is failed
+      changed_when: http_port_check is failed
